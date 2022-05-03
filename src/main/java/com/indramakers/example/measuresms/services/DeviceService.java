@@ -1,6 +1,6 @@
 package com.indramakers.example.measuresms.services;
 
-import com.indramakers.example.measuresms.model.Device;
+import com.indramakers.example.measuresms.model.entities.Device;
 import com.indramakers.example.measuresms.repositories.IDevicesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

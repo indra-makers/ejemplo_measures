@@ -1,6 +1,11 @@
-package com.indramakers.example.measuresms.model;
+package com.indramakers.example.measuresms.model.entities;
+
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -14,12 +19,17 @@ public class Device implements Serializable {
     private Long id;
 
     @Column(name = "name_device")
+    @Pattern(regexp = "[A-Z]{3}-[0-9]{3}")
     private String name;
 
     @Column(name = "branch_device")
+    @NotBlank
+    @NotEmpty
+    @Length(min = 3, max = 20)
     private String branch;
 
     @Column(name = "measure_unit")
+    @Pattern(regexp = "[A-Z]{3}")
     private String units;
 
     @Column(name = "created_at")
