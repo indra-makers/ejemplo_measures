@@ -1,6 +1,6 @@
 package com.indramakers.example.measuresms.repositories;
 
-import com.indramakers.example.measuresms.model.Device;
+import com.indramakers.example.measuresms.model.entities.Device;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
