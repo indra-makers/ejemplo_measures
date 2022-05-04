@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface IDevicesRepository extends CrudRepository<Device, String> {
+public interface IDevicesRepository extends CrudRepository<Device, Long> {
 
     //select * from tb_devices where branch_devices = ?
     //findBy{{nombreAtributo}}(tipoAtributo {{nombreAtributo}}
