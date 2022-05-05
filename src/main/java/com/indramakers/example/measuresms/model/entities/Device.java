@@ -38,6 +38,10 @@ public class Device implements Serializable {
     @Column(name = "updated_at")
     private Date updatedAt;
 
+
+    @Column(name = "location_id")
+    private Long location_id;
+
     public Device() {
     }
 
