@@ -1,6 +1,8 @@
 package com.indramakers.example.measuresms.services;
 
 import com.indramakers.example.measuresms.model.entities.Device;
+import com.indramakers.example.measuresms.model.entities.Measure;
+import com.indramakers.example.measuresms.repositories.DeviceRepository;
 import com.indramakers.example.measuresms.repositories.IDevicesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,9 @@ public class DeviceService {
 
     @Autowired
     private IDevicesRepository devicesRepository;
+
+    @Autowired
+    private DeviceRepository deviceRepository;
 
     /**
      * Create device
@@ -36,5 +41,9 @@ public class DeviceService {
      */
     public List<Device> getBytBranch(String branch) {
         return devicesRepository.findByBranch(branch);
+    }
+
+    public List<Device> getDeviceByLocation(int id) {
+        return deviceRepository.findByLocation(id);
     }
 }
