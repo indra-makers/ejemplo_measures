@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.indramakers.example.measuresms.model.entities.Locations;
+import com.indramakers.example.measuresms.model.entities.Measure;
 import com.indramakers.example.measuresms.services.LocationService;
 
 @RestController
@@ -26,8 +27,15 @@ public class LocationController {
 	}
 
 	@DeleteMapping("/eliminar")
-	public int delete(@RequestParam(name = "id") int id) throws SQLException {
-		return locationService.delete(id);
+	public void delete(@RequestParam(name = "id") int id) throws SQLException {
+
+		locationService.delete(id);
+
+	}
+	
+	@GetMapping("/measure")
+	public List<Measure> getMeasureLocation(int id) {
+		return locationService.getMeasureLocation(id);
 	}
 
 }

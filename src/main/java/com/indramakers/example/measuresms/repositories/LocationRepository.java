@@ -1,6 +1,7 @@
 package com.indramakers.example.measuresms.repositories;
 
 import com.indramakers.example.measuresms.model.entities.Locations;
+import com.indramakers.example.measuresms.model.entities.Measure;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -38,11 +39,16 @@ public class LocationRepository {
 
 	}
 
-	public int delete(int id)  {
-		
+	public int delete(int id) {
+
 		return template.update("DELETE FROM tb_locations where id_location=?", id);
 
+	}
 
+	public List<Measure> getMeasureByLocation(int locationId) {
+		return template.query(
+				"SELECT _medidas.value, device_id, date_time from tb_measures _medidas INNER JOIN tb_devices _dispositivos ON _dispositivos.id_device = _medidas.device_id INNER JOIN tb_locations _locations ON _dispositivos.location_id = _locations.id_location where _locations.id_location=?",
+				new MeasureRowMapper(), locationId);
 	}
 
 }

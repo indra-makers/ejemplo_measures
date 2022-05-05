@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.indramakers.example.measuresms.model.entities.Locations;
+import com.indramakers.example.measuresms.model.entities.Measure;
 import com.indramakers.example.measuresms.repositories.LocationRepository;
 
 @Service
@@ -24,9 +25,15 @@ public class LocationService {
 		return locationRepository.findById(id);
 	}
 
-	public int delete(int id)  {
+	public int delete(int id) {
 
 		return locationRepository.delete(id);
+
+	}
+	
+	public List<Measure> getMeasureLocation(int idLocation){
+		
+		return locationRepository.getMeasureByLocation(idLocation);
 	}
 
 }

@@ -30,6 +30,12 @@ public class DeviceController {
 	public void create(@Valid @RequestBody Device device) {
 		deviceService.createDevice(device);
 	}
+	
+	@GetMapping("/deviceLocation")
+	public void getDeviceLocation(@RequestParam(name = "id") int id) {
+		deviceService.getDeviceLocation(id);
+		
+	}
 
 	/**
 	 * GET /devices?marca={{marca}},
@@ -58,7 +64,7 @@ public class DeviceController {
 	 */
 	@PostMapping("/{deviceId}/measures")
 	public void addMeasureToDevice(@Valid @RequestBody MeasureValueRequest request,
-			@PathVariable("deviceId") String deviceId) {
+			@PathVariable("deviceId") int deviceId) {
 
 		measureService.registerMeasure(deviceId, request.getValue());
 	}
@@ -68,7 +74,7 @@ public class DeviceController {
 	 */
 
 	@GetMapping("/{deviceId}/measures")
-	public List<Measure> getDeviceMeasures(@PathVariable("deviceId") String deviceId) {
+	public List<Measure> getDeviceMeasures(@PathVariable("deviceId") int deviceId) {
 
 		return measureService.getMeasuresByDevice(deviceId);
 	}

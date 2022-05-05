@@ -5,48 +5,50 @@ import java.util.Date;
 
 public class Measure implements Serializable {
 
-    private Long id;
-    private String deviceId;
-    private Double value;
-    private Date dateTime;
+	private int id;
+	private int deviceId;
+	private Double value;
+	private Date dateTime;
 
-    public Measure() {
-    }
+	public Measure() {
+	}
 
-    public Measure(String deviceId, Double value) {
-        this.deviceId = deviceId;
-        this.value = value;
-    }
+	public Measure(int deviceId, Double value) {
+		super();
+		this.deviceId = deviceId;
+		this.value = value;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public String getDeviceId() {
-        return deviceId;
-    }
+	public int getDeviceId() {
+		return deviceId;
+	}
 
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
-    }
+	public void setDeviceId(int deviceId) {
+		this.deviceId = deviceId;
+	}
 
-    public Double getValue() {
-        return value;
-    }
+	public Double getValue() {
+		return value;
+	}
 
-    public void setValue(Double value) {
-        this.value = value;
-    }
+	public void setValue(Double value) {
+		this.value = value;
+	}
 
-    public Date getDateTime() {
-        return dateTime;
-    }
+	public Date getDateTime() {
+		return dateTime;
+	}
 
-    public void setDateTime(Date dateTime) {
-        this.dateTime = dateTime;
-    }
+	public void setDateTime(Date dateTime) {
+		this.dateTime = dateTime;
+	}
+
 }

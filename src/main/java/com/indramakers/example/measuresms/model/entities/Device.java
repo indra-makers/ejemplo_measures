@@ -16,7 +16,7 @@ public class Device implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_device")
-	private Long id;
+	private int id;
 
 	@Column(name = "name_device")
 	@Pattern(regexp = "[A-Z]{3}-[0-9]{3}")
@@ -32,7 +32,7 @@ public class Device implements Serializable {
 	@Pattern(regexp = "[A-Z]{3}")
 	private String units;
 
-	@Column(name = "id_location")
+	@Column(name = "location_id")
 	private int idLocation;
 
 	@Column(name = "created_at")
@@ -44,26 +44,21 @@ public class Device implements Serializable {
 	public Device() {
 	}
 
-	public Device(Long id, String name, String branch, String units, Date createdAt) {
-		this.id = id;
-		this.name = name;
-		this.branch = branch;
-		this.units = units;
-		this.createdAt = createdAt;
-	}
 
-	public Device(String name, String branch, String units) {
+
+	public Device(String name, String branch, String units, int idLocation) {
 		this.name = name;
 		this.branch = branch;
 		this.units = units;
+		this.idLocation = idLocation;
 		createdAt = new Date();
 	}
 
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -90,4 +85,29 @@ public class Device implements Serializable {
 	public void setUnits(String units) {
 		this.units = units;
 	}
+
+	public int getIdLocation() {
+		return idLocation;
+	}
+
+	public void setIdLocation(int idLocation) {
+		this.idLocation = idLocation;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
 }
