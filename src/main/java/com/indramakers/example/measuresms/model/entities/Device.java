@@ -32,6 +32,9 @@ public class Device implements Serializable {
     @Pattern(regexp = "[A-Z]{3}")
     private String units;
 
+    @Column(name = "Location_id")
+    private int location;
+
     @Column(name = "created_at")
     private Date createdAt;
 
@@ -41,18 +44,20 @@ public class Device implements Serializable {
     public Device() {
     }
 
-    public Device(Long id, String name, String branch, String units, Date createdAt) {
+    public Device(Long id, String name, String branch, String units, int location,  Date createdAt) {
         this.id = id;
         this.name = name;
         this.branch = branch;
         this.units = units;
+        this.location=location;
         this.createdAt = createdAt;
     }
 
-    public Device(String name, String branch, String units) {
+    public Device(String name, String branch, String units, int location) {
         this.name = name;
         this.branch = branch;
         this.units = units;
+        this.location= location;
         createdAt = new Date();
     }
 
@@ -86,5 +91,13 @@ public class Device implements Serializable {
 
     public void setUnits(String units) {
         this.units = units;
+    }
+
+    public int getLocation() {
+        return location;
+    }
+
+    public void setLocation(int location) {
+        this.location = location;
     }
 }
