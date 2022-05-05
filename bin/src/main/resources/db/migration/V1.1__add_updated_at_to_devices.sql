@@ -1,0 +1,1 @@
+ALTER TABLE tb_devices ADD updated_at timestamp;

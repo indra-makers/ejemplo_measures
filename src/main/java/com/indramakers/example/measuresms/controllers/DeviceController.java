@@ -15,63 +15,62 @@ import java.util.List;
 @RequestMapping("/devices")
 public class DeviceController {
 
-    @Autowired
-    private DeviceService deviceService;
+	@Autowired
+	private DeviceService deviceService;
 
-    @Autowired
-    private MeasureService measureService;
+	@Autowired
+	private MeasureService measureService;
 
-    /**
-     * URL /devices
-     * @param device
-     */
-    @PostMapping
-    public void create(@Valid @RequestBody Device device) {
-        deviceService.createDevice(device);
-    }
+	/**
+	 * URL /devices
+	 * 
+	 * @param device
+	 */
+	@PostMapping
+	public void create(@Valid @RequestBody Device device) {
+		deviceService.createDevice(device);
+	}
 
-    /**
-     *   GET /devices?marca={{marca}},
-     * @param branch
-     * @return
-     */
-    @GetMapping
-    public List<Device> getDevicesByBranch(@RequestParam(name = "branch") String branch) {
-        return deviceService.getBytBranch(branch);
-    }
+	/**
+	 * GET /devices?marca={{marca}},
+	 * 
+	 * @param branch
+	 * @return
+	 */
+	@GetMapping
+	public List<Device> getDevicesByBranch(@RequestParam(name = "branch") String branch) {
+		return deviceService.getBytBranch(branch);
+	}
 
-    /**
-     *   GET /devices/by-branch?branch={{valor}}
-     * @param branch
-     * @return
-     */
-    @GetMapping("/by-branch")
-    public List<Device> getDevicesByBranch2(@RequestParam(name = "branch") String branch) {
-        return deviceService.getBytBranch(branch);
-    }
+	/**
+	 * GET /devices/by-branch?branch={{valor}}
+	 * 
+	 * @param branch
+	 * @return
+	 */
+	@GetMapping("/by-branch")
+	public List<Device> getDevicesByBranch2(@RequestParam(name = "branch") String branch) {
+		return deviceService.getBytBranch(branch);
+	}
 
-    /**
-     * PATH /devices/{deviceId}/measures
-     * POST
-     * PARAMS: body -> { value: 12312 }
-     */
-    @PostMapping("/{deviceId}/measures")
-    public void addMeasureToDevice(
-            @Valid @RequestBody MeasureValueRequest request,
-            @PathVariable("deviceId") String deviceId) {
+	/**
+	 * PATH /devices/{deviceId}/measures POST PARAMS: body -> { value: 12312 }
+	 */
+	@PostMapping("/{deviceId}/measures")
+	public void addMeasureToDevice(@Valid @RequestBody MeasureValueRequest request,
+			@PathVariable("deviceId") String deviceId) {
 
-        measureService.registerMeasure(deviceId, request.getValue());
-    }
+		measureService.registerMeasure(deviceId, request.getValue());
+	}
 
-    /**
-     * GET /devices/{id}/measures
-     */
+	/**
+	 * GET /devices/{id}/measures
+	 */
 
-    @GetMapping("/{deviceId}/measures")
-    public List<Measure> getDeviceMeasures(
-            @PathVariable("deviceId") String deviceId) {
+	@GetMapping("/{deviceId}/measures")
+	public List<Measure> getDeviceMeasures(@PathVariable("deviceId") String deviceId) {
 
-        return measureService.getMeasuresByDevice(deviceId);
-    }
+		return measureService.getMeasuresByDevice(deviceId);
+	}
 
 }
