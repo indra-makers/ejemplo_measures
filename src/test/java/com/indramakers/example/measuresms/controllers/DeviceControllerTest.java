@@ -109,6 +109,30 @@ public class DeviceControllerTest {
         Assertions.assertEquals(4, measures.length);
     }
 
+    @Test
+    public void getDeviceByLocataionHappy() throws Exception {
+        //----la ejecucion de la prueba misma--------------
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .get("/devices/14/locations");
+
+        MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
+        //------------ las verificaciones--------------------
+        Assertions.assertEquals(200, response.getStatus());
+
+        Device[] devices = objectMapper.readValue(response.getContentAsString(), Device[].class);
+        Assertions.assertEquals(3, devices.length);
+    }
+
+    @Test
+    public void getDeviceByLocataionDontFind() throws Exception {
+        //----la ejecucion de la prueba misma--------------
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .get("/devices/12/locations");
+
+        MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
+        //------------ las verificaciones--------------------
+        Assertions.assertEquals(400, response.getStatus());
+    }
 
 
 

@@ -24,4 +24,8 @@ public class MeasureService {
     public List<Measure> getMeasuresByDevice(String deviceId) {
         return measureRepository.findByDevice(deviceId);
     }
+
+    public List<Measure> getMeasuresByLocation(Long idLocation) {
+        return measureRepository.findByLocation(idLocation);
+    }
 }
