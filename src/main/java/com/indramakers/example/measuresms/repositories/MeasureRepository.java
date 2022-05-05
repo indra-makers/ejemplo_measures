@@ -15,7 +15,7 @@ class MeasureRowMapper implements RowMapper<Measure> {
     @Override
     public Measure mapRow(ResultSet rs, int rowNum) throws SQLException {
         Measure measure = new Measure();
-        measure.setDeviceId(rs.getString("device_id"));
+        measure.setDeviceId(rs.getInt("device_id"));
         measure.setId(rs.getLong("id"));
         measure.setValue(rs.getDouble("value"));
         measure.setDateTime(rs.getDate("date_time"));
