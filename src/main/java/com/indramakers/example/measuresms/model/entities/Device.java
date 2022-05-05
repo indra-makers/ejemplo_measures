@@ -18,6 +18,9 @@ public class Device implements Serializable {
     @Column(name = "id_device")
     private Long id;
 
+    @Column(name = "id_location")
+    private int locationId;
+
     @Column(name = "name_device")
     @Pattern(regexp = "[A-Z]{3}-[0-9]{3}")
     private String name;
@@ -41,19 +44,28 @@ public class Device implements Serializable {
     public Device() {
     }
 
-    public Device(Long id, String name, String branch, String units, Date createdAt) {
+    public Device(Long id, int locationId, String name, String branch, String units, Date createdAt) {
         this.id = id;
+        this.locationId = locationId;
         this.name = name;
         this.branch = branch;
         this.units = units;
         this.createdAt = createdAt;
     }
 
-    public Device(String name, String branch, String units) {
+    public Device(int locationId, String name, String branch, String units) {
+        this.locationId = locationId;
         this.name = name;
         this.branch = branch;
         this.units = units;
-        createdAt = new Date();
+    }
+
+    public int getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(int locationId) {
+        this.locationId = locationId;
     }
 
     public Long getId() {

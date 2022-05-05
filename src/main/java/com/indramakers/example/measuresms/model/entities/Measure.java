@@ -6,14 +6,14 @@ import java.util.Date;
 public class Measure implements Serializable {
 
     private Long id;
-    private String deviceId;
+    private Long deviceId;
     private Double value;
     private Date dateTime;
 
     public Measure() {
     }
 
-    public Measure(String deviceId, Double value) {
+    public Measure(Long deviceId, Double value) {
         this.deviceId = deviceId;
         this.value = value;
     }
@@ -26,11 +26,11 @@ public class Measure implements Serializable {
         this.id = id;
     }
 
-    public String getDeviceId() {
+    public Long getDeviceId() {
         return deviceId;
     }
 
-    public void setDeviceId(String deviceId) {
+    public void setDeviceId(Long deviceId) {
         this.deviceId = deviceId;
     }
 

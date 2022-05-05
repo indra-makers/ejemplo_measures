@@ -39,6 +39,7 @@ public class DeviceControllerTest {
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post("/devices")
                 .content("{\n" +
+                        "    \"location_id\": \"1\",\n" +
                         "    \"name\": \"LTB-331\",\n" +
                         "    \"units\": \"CEN\",\n" +
                         "    \"branch\": \"siemens\"\n" +
@@ -59,12 +60,13 @@ public class DeviceControllerTest {
     //@Test
     public void createDeviceDeviceAlreadyExist() throws Exception {
         //----la preparacion de los datos de prueba-------
-        devicesRepository.save(new Device("LTB-331", "siemens", "MTS"));
+        devicesRepository.save(new Device(1,"LTB-331", "siemens", "MTS"));
 
         //----la ejecucion de la prueba misma--------------
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post("/devices")
                 .content("{\n" +
+                        "    \"location_id\": \"1\",\n" +
                         "    \"name\": \"LTB-331\",\n" +
                         "    \"units\": \"CEN\",\n" +
                         "    \"branch\": \"siemens\"\n" +
@@ -83,6 +85,7 @@ public class DeviceControllerTest {
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post("/devices")
                 .content("{\n" +
+                        "    \"location_id\": \"1\",\n" +
                         "    \"name\": \"abc-331\",\n" +
                         "    \"units\": \"CEN\",\n" +
                         "    \"branch\": \"siemens\"\n" +
