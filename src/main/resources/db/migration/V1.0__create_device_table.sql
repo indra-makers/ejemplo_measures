@@ -3,5 +3,5 @@ create table public.tb_devices (
     name_device varchar(255) NOT NULL,
     branch_device varchar(255) NOT NULL,
     measure_unit varchar(5) NOT NULL,
-    created_at timestamp
+    created_at timestamp default now()
 )

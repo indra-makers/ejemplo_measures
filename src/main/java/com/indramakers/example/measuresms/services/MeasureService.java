@@ -13,7 +13,7 @@ public class MeasureService {
     @Autowired
     private MeasureRepository measureRepository;
 
-    public void registerMeasure(String deviceId, Double value) {
+    public void registerMeasure(int deviceId, Double value) {
         if(value<0 || value>100) {
             throw new RuntimeException("Invalid measure");
         }

@@ -38,22 +38,27 @@ public class Device implements Serializable {
     @Column(name = "updated_at")
     private Date updatedAt;
 
+    @Column(name="fk_id_location")
+    private int fkIdLocation;
+
     public Device() {
     }
 
-    public Device(Long id, String name, String branch, String units, Date createdAt) {
+    public Device(Long id, String name, String branch, String units, Date createdAt, Date updatedAt, int fkIdLocation) {
         this.id = id;
         this.name = name;
         this.branch = branch;
         this.units = units;
         this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.fkIdLocation = fkIdLocation;
     }
 
-    public Device(String name, String branch, String units) {
+    public Device(String name, String branch, String units, int fkIdLocation) {
         this.name = name;
         this.branch = branch;
         this.units = units;
-        createdAt = new Date();
+        this.fkIdLocation = fkIdLocation;
     }
 
     public Long getId() {
@@ -86,5 +91,13 @@ public class Device implements Serializable {
 
     public void setUnits(String units) {
         this.units = units;
+    }
+
+    public int getFkIdLocation() {
+        return fkIdLocation;
+    }
+
+    public void setFkIdLocation(int fkIdLocation) {
+        this.fkIdLocation = fkIdLocation;
     }
 }

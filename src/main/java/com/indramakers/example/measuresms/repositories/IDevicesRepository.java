@@ -19,4 +19,6 @@ public interface IDevicesRepository extends CrudRepository<Device, Long> {
     // los predicados son en base a los atributos de la clase
     @Query("SELECT dev FROM Device dev WHERE dev.name = :name")
     List<Device> findByName(String name);
+
+    List<Device> findByFkIdLocation(int id_location);
 }
