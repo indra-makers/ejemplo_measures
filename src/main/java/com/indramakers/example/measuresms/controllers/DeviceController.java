@@ -58,7 +58,7 @@ public class DeviceController {
     @PostMapping("/{deviceId}/measures")
     public void addMeasureToDevice(
             @Valid @RequestBody MeasureValueRequest request,
-            @PathVariable("deviceId") String deviceId) {
+            @PathVariable("deviceId") int deviceId) {
 
         measureService.registerMeasure(deviceId, request.getValue());
     }
@@ -73,5 +73,12 @@ public class DeviceController {
 
         return measureService.getMeasuresByDevice(deviceId);
     }
+
+    @GetMapping("/getbyLocation")
+    public List<Device> getLocationsDevices(@RequestParam(name="id_location") int id_location) {
+        return deviceService.getById_location(id_location);
+    }
+
+
 
 }
