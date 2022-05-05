@@ -38,7 +38,7 @@ public class DeviceService {
         return devicesRepository.findByBranch(branch);
     }
 
-    public List<Device> getById_location(int id_location){
+    public List<Device> getById_location(Long id_location){
         return devicesRepository.findByIdLocation(id_location);
     }
 

@@ -20,5 +20,5 @@ public interface IDevicesRepository extends CrudRepository<Device, Long> {
     @Query("SELECT dev FROM Device dev WHERE dev.name = :name")
     List<Device> findByName(String name);
 
-    List<Device> findByIdLocation(int id_location);
+    List<Device> findByIdLocation(Long id_location);
 }

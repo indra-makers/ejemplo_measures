@@ -25,11 +25,11 @@ public class LocationService {
 
     }
 
-    public List<Location> getById(int id){
+    public List<Location> getById(Long id){
         return locationRepository.findByLocationId(id);
     }
 
-    public void deleteLocation(int id_location){
+    public void deleteLocation(Long id_location){
         if (iDevicesRepository.findByIdLocation(id_location).isEmpty()){
             locationRepository.deleteLocation(id_location);
         }else{

@@ -20,12 +20,12 @@ public class LocationController {
     }
 
     @GetMapping("/by_id")
-    public List<Location> getLocation(@RequestParam(name="id_location") int id){
+    public List<Location> getLocation(@RequestParam(name="id_location") Long id){
         return locationService.getById(id);
     }
 
     @DeleteMapping("/delete/{id_location}")
-    public void deleteLocation(@PathVariable("id_location") int id_location){
+    public void deleteLocation(@PathVariable("id_location") Long id_location){
         locationService.deleteLocation(id_location);
     }
 

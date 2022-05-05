@@ -40,7 +40,7 @@ import java.util.List;
                     location.getName(), new Timestamp(date.getTime()));
         }
 
-        public List<Location> findByLocationId(int id_location) {
+        public List<Location> findByLocationId(Long id_location) {
             return template.query(
                     "SELECT id_location, name, created_at, updated_at FROM tb_locations WHERE id_location=?",
                     new com.indramakers.example.measuresms.repositories.LocationRowMapper() ,
@@ -54,7 +54,7 @@ import java.util.List;
                     name);
         }
 
-        public void deleteLocation(int id_location){
+        public void deleteLocation(Long id_location){
             template.update("DELETE FROM tb_locations WHERE id_location = ?",
                     id_location);
         }

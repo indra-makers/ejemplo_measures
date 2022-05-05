@@ -78,7 +78,7 @@ public class DeviceController {
     }
 
     @GetMapping("/getbyLocation")
-    public List<Device> getLocationsDevices(@RequestParam(name="id_location") int id_location) {
+    public List<Device> getLocationsDevices(@RequestParam(name="id_location") Long id_location) {
         return deviceService.getById_location(id_location);
     }
 }
