@@ -37,4 +37,14 @@ public class DeviceService {
     public List<Device> getBytBranch(String branch) {
         return devicesRepository.findByBranch(branch);
     }
+
+    public List<Device> getByIdLocation(Long idLocation) {
+        if(devicesRepository.findByIdLocation(idLocation).size()!=0){
+            return devicesRepository.findByIdLocation(idLocation);
+        }
+        else{
+            throw new RuntimeException("Invalid idLocation");
+        }
+    }
+
 }

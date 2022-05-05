@@ -1,9 +1,11 @@
 package com.indramakers.example.measuresms.controllers;
 
 import com.indramakers.example.measuresms.model.entities.Device;
+import com.indramakers.example.measuresms.model.entities.Location;
 import com.indramakers.example.measuresms.model.entities.Measure;
 import com.indramakers.example.measuresms.model.requests.MeasureValueRequest;
 import com.indramakers.example.measuresms.services.DeviceService;
+import com.indramakers.example.measuresms.services.LocationService;
 import com.indramakers.example.measuresms.services.MeasureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,9 @@ public class DeviceController {
 
     @Autowired
     private MeasureService measureService;
+
+    @Autowired
+    private LocationService locationService;
 
     /**
      * URL /devices
@@ -72,6 +77,11 @@ public class DeviceController {
             @PathVariable("deviceId") String deviceId) {
 
         return measureService.getMeasuresByDevice(deviceId);
+    }
+
+    @GetMapping("/{idLocation}/locations")
+    public List<Device> getDeviceLocations(@PathVariable("idLocation") Long idLocation) {
+        return deviceService.getByIdLocation(idLocation);
     }
 
 }

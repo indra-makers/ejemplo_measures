@@ -1,0 +1,1 @@
+ALTER TABLE tb_measures ALTER COLUMN device_id TYPE int USING device_id::integer;

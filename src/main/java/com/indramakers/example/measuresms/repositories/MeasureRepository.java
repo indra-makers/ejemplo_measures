@@ -40,4 +40,11 @@ public class MeasureRepository {
                 new MeasureRowMapper() ,
                 deviceId);
     }
+
+    public List<Measure> findByLocation(Long idLocation) {
+        return template.query(
+                "SELECT tb_measures.* FROM tb_devices join tb_measures on tb_devices.id_device = tb_measures.device_id join tb_location on tb_devices.id_location=?",
+                new MeasureRowMapper() ,
+                idLocation);
+    }
 }

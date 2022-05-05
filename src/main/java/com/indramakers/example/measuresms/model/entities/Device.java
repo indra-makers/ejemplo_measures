@@ -19,17 +19,17 @@ public class Device implements Serializable {
     private Long id;
 
     @Column(name = "name_device")
-    @Pattern(regexp = "[A-Z]{3}-[0-9]{3}")
+    //@Pattern(regexp = "[A-Z]{3}-[0-9]{3}")
     private String name;
 
     @Column(name = "branch_device")
     @NotBlank
     @NotEmpty
-    @Length(min = 3, max = 20)
+    @Length(min = 1, max = 20)
     private String branch;
 
     @Column(name = "measure_unit")
-    @Pattern(regexp = "[A-Z]{3}")
+    //@Pattern(regexp = "[A-Z]{3}")
     private String units;
 
     @Column(name = "created_at")
@@ -38,15 +38,19 @@ public class Device implements Serializable {
     @Column(name = "updated_at")
     private Date updatedAt;
 
+    @Column(name = "id_location")
+    private Long idLocation;
+
     public Device() {
     }
 
-    public Device(Long id, String name, String branch, String units, Date createdAt) {
+    public Device(Long id, String name, String branch, String units,Long idLocation, Date createdAt) {
         this.id = id;
         this.name = name;
         this.branch = branch;
         this.units = units;
         this.createdAt = createdAt;
+        this.idLocation = idLocation;
     }
 
     public Device(String name, String branch, String units) {
@@ -86,5 +90,13 @@ public class Device implements Serializable {
 
     public void setUnits(String units) {
         this.units = units;
+    }
+
+    public Long getIdLocation() {
+        return idLocation;
+    }
+
+    public void setIdLocation(Long idLocation) {
+        this.idLocation = idLocation;
     }
 }
