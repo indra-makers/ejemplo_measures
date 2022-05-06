@@ -65,7 +65,7 @@ public class DeviceControllerTest {
     @Test
     public void createDeviceDeviceAlreadyExist() throws Exception {
         //----la preparacion de los datos de prueba-------
-        devicesRepository.save(new Device("LTB-331", "siemens", "MTS"));
+        devicesRepository.save(new Device("LTB-331", "siemens", "MTS", 1));
 
         //----la ejecucion de la prueba misma--------------
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
