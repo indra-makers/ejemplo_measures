@@ -14,6 +14,9 @@ public interface IDevicesRepository extends CrudRepository<Device, Long> {
     //findBy{{nombreAtributo}}(tipoAtributo {{nombreAtributo}}
     List<Device> findByBranch(String branch);
 
+
+    List<Device> findByIdLocation(int id_location);
+
     //consultas JPQL
     //SELECT obj FROM Class obj WHERE {{predicados}},
     // los predicados son en base a los atributos de la clase

@@ -39,4 +39,7 @@ public class DeviceService {
     public List<Device> getBytBranch(String branch) {
         return devicesRepository.findByBranch(branch);
     }
+    public List<Device> getById_location(int id_location){
+        return devicesRepository.findByIdLocation(id_location);
+    }
 }
