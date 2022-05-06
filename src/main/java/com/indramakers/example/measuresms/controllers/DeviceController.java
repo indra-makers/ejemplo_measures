@@ -24,6 +24,7 @@ public class DeviceController {
 
     /**
      * URL /devices
+     *
      * @param device
      */
     @PostMapping
@@ -32,7 +33,8 @@ public class DeviceController {
     }
 
     /**
-     *   GET /devices?marca={{marca}},
+     * GET /devices?marca={{marca}},
+     *
      * @param branch
      * @return
      */
@@ -42,7 +44,8 @@ public class DeviceController {
     }
 
     /**
-     *   GET /devices/by-branch?branch={{valor}}
+     * GET /devices/by-branch?branch={{valor}}
+     *
      * @param branch
      * @return
      */
@@ -75,4 +78,8 @@ public class DeviceController {
         return measureService.getMeasuresByDevice(deviceId);
     }
 
+    @GetMapping("/getbyLocation")
+    public List<Device> getLocationsDevices(@RequestParam(name="id_location") Long id_location) {
+        return deviceService.getById_location(id_location);
+    }
 }
