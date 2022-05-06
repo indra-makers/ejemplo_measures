@@ -42,4 +42,11 @@ public class LocationRepository {
                 new LocationRowMapper(),
                 location_id );
     }
+
+    public void deleteLocation(int id) {
+        template.update(
+                "DELETE  FROM tbl_location WHERE id=?",
+                id);
+    }
+
 }

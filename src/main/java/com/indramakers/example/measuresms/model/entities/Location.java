@@ -13,8 +13,7 @@ public class Location implements Serializable {
     public Location(){
     }
 
-    public Location(int id, String name){
-        this.id=id;
+    public Location(String name){
         this.name=name;
         created_at= new Date();
     }

@@ -66,7 +66,6 @@ public class DeviceController {
     /**
      * GET /devices/{id}/measures
      */
-
     @GetMapping("/{deviceId}/measures")
     public List<Measure> getDeviceMeasures(
             @PathVariable("deviceId") String deviceId) {

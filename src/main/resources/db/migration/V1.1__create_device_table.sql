@@ -3,5 +3,7 @@ create table public.tb_devices (
     name_device varchar(255) NOT NULL,
     branch_device varchar(255) NOT NULL,
     measure_unit varchar(5) NOT NULL,
-    created_at timestamp
+    location_id int not null,
+    created_at timestamp,
+    foreign key(location_id) references tbl_locations(id)
 )

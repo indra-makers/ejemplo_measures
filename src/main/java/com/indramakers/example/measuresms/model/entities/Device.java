@@ -13,6 +13,7 @@ import java.util.Date;
 @Table(name = "tb_devices")
 public class Device implements Serializable {
 
+    //fefafaf
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_device")
