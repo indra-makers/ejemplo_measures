@@ -1,5 +1,8 @@
 package com.indramakers.example.measuresms.model.requests;
 
+import com.indramakers.example.measuresms.config.Config;
+
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
