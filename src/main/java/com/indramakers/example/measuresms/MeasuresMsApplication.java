@@ -1,5 +1,6 @@
 package com.indramakers.example.measuresms;
 
+import com.indramakers.example.measuresms.config.ErrorCodes;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

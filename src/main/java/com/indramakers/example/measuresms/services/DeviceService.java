@@ -1,5 +1,7 @@
 package com.indramakers.example.measuresms.services;
 
+import com.indramakers.example.measuresms.config.ErrorCodes;
+import com.indramakers.example.measuresms.exceptions.BusinessException;
 import com.indramakers.example.measuresms.model.entities.Device;
 import com.indramakers.example.measuresms.repositories.IDevicesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,7 @@ public class DeviceService {
         List<Device> devicesByName = devicesRepository.findByName(device.getName());
 
         if (!devicesByName.isEmpty()) {
-            throw new RuntimeException("Device with that name already exists");
+            throw new BusinessException(ErrorCodes.DEVICE_WITH_NAME_EXISTS);
         }
 
         devicesRepository.save(device);
