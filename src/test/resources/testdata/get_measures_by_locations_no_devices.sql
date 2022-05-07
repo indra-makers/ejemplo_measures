@@ -1,0 +1,1 @@
+INSERT INTO public.tb_locations(id_location, name, created_at) VALUES (990, 'Test_name', now());

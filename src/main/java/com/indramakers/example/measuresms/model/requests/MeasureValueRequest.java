@@ -6,8 +6,8 @@ import javax.validation.constraints.NotBlank;
 
 public class MeasureValueRequest {
 
-    @Min(0)
-    @Max(100)
+    //@Min(0)
+    //@Max(100)
     private Double value;
 
     public MeasureValueRequest() {

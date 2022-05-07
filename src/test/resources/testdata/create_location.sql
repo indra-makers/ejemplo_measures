@@ -1,1 +1,1 @@
-INSERT INTO public.tb_locations(name, created_at) VALUES ('Test_name', now())
+INSERT INTO public.tb_locations(id_location, name, created_at) VALUES (999, 'Test_name', now());

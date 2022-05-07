@@ -34,7 +34,7 @@ public class MeasureRepository {
                measure.getValue(), measure.getDeviceId());
     }
 
-    public List<Measure> findByDevice(String deviceId) {
+    public List<Measure> findByDevice(int deviceId) {
         return template.query(
                 "SELECT id, date_time, value, device_id FROM tb_measures WHERE device_id=?",
                 new MeasureRowMapper() ,
