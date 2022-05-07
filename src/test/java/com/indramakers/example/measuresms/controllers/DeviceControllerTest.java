@@ -42,6 +42,7 @@ public class DeviceControllerTest {
                         "    \"name\": \"LTB-331\",\n" +
                         "    \"units\": \"CEN\",\n" +
                         "    \"branch\": \"siemens\"\n" +
+                        "    \"location\": \"\"\n" +
                         "}").contentType(MediaType.APPLICATION_JSON);
 
         MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();

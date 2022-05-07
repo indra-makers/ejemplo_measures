@@ -45,7 +45,7 @@ public class LocationRepository {
 
     public void deleteLocation(int id) {
         template.update(
-                "DELETE  FROM tbl_location WHERE id=?",
+                "DELETE  FROM tbl_locations WHERE id=?",
                 id);
     }
 

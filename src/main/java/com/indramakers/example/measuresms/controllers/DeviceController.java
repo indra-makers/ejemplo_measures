@@ -73,4 +73,16 @@ public class DeviceController {
         return measureService.getMeasuresByDevice(deviceId);
     }
 
+    /**
+     * GET /devices/{id}/locations
+     * @return
+     */
+    @GetMapping("/{id_location}/locations")
+    public List<Device> getDeviceByLocation(
+            @PathVariable("id_location") int id_location) {
+
+        return deviceService.getDeviceByLocation(id_location);
+    }
+
+
 }

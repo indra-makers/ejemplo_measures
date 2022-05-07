@@ -25,7 +25,6 @@ public class DeviceService {
         if (!devicesByName.isEmpty()) {
             throw new RuntimeException("Device with that name already exists");
         }
-
         devicesRepository.save(device);
     }
 
