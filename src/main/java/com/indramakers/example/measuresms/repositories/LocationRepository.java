@@ -38,7 +38,7 @@ public class LocationRepository {
 				id);
 
 	}
-
+//algo jojoj dasdasdasdasd jeje
 	public int delete(int id) {
 
 		return template.update("DELETE FROM tb_locations where id_location=?", id);

@@ -8,11 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.indramakers.example.measuresms.config.Routes;
 import com.indramakers.example.measuresms.model.entities.Measure;
 import com.indramakers.example.measuresms.services.MeasureService;
 
 @RestController
-@RequestMapping("/measure")
+@RequestMapping(Routes.MEASURE_PATH)
 public class MeasureController {
 	@Autowired
 	private MeasureService measureService;
@@ -24,7 +25,7 @@ public class MeasureController {
 		
 	}
 	
-	@GetMapping("/measureLocations")
+	@GetMapping(Routes.MEASURE_LOCATIONS)
 	public void getMeasureLocation(@RequestParam(name = "id") int id) {
 		measureService.getMeasuresByDevice(id);
 	}
