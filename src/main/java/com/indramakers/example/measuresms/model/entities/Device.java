@@ -44,7 +44,7 @@ public class Device implements Serializable {
     public Device() {
     }
 
-    public Device(Long id, String name, String branch, String units,Long idLocation, Date createdAt) {
+    public Device(Long id, String name, String branch, String units, Long idLocation, Date createdAt) {
         this.id = id;
         this.name = name;
         this.branch = branch;
@@ -53,11 +53,12 @@ public class Device implements Serializable {
         this.idLocation = idLocation;
     }
 
-    public Device(String name, String branch, String units) {
+    public Device(String name, String branch, String units, Long idLocation) {
         this.name = name;
         this.branch = branch;
         this.units = units;
         createdAt = new Date();
+        this.idLocation = idLocation;
     }
 
     public Long getId() {

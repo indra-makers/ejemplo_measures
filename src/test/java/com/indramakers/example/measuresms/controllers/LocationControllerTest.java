@@ -2,6 +2,7 @@ package com.indramakers.example.measuresms.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.indramakers.example.measuresms.model.entities.Location;
+import com.indramakers.example.measuresms.model.responses.ErrorResponse;
 import com.indramakers.example.measuresms.repositories.IDevicesRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -46,7 +47,7 @@ public class LocationControllerTest {
     }
 
     @Test
-    public void getLocation() throws Exception {
+    public void getLocationHappy() throws Exception {
         //----la ejecucion de la prueba misma--------------
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .get("/location/1");
@@ -57,6 +58,19 @@ public class LocationControllerTest {
 
         Location[] location = objectMapper.readValue(response.getContentAsString(), Location[].class);
         Assertions.assertEquals(1, location.length);
+    }
+
+    @Test
+    public void getLocationNotFound() throws Exception {
+        //----la ejecucion de la prueba misma--------------
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .get("/location/156");
+
+        MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
+        //------------ las verificaciones--------------------
+        Assertions.assertEquals(404, response.getStatus());
+        ErrorResponse error = objectMapper.readValue(response.getContentAsString(), ErrorResponse.class);
+        Assertions.assertEquals("Invalid IdLocation", error.getMessage());
     }
 
     @Test
@@ -74,10 +88,12 @@ public class LocationControllerTest {
     public void deleteLocationBad() throws Exception {
         //----la ejecucion de la prueba misma--------------
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .delete("/location/1");
+                .delete("/location/14");
 
         MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
         //------------ las verificaciones--------------------
-        Assertions.assertEquals(200, response.getStatus());
+        Assertions.assertEquals(404, response.getStatus());
+        ErrorResponse error = objectMapper.readValue(response.getContentAsString(), ErrorResponse.class);
+        Assertions.assertEquals("Invalid IdLocation", error.getMessage());
     }
 }

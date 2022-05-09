@@ -1,5 +1,8 @@
 package com.indramakers.example.measuresms.services;
 
+import com.indramakers.example.measuresms.config.ErrorCodes;
+import com.indramakers.example.measuresms.exceptions.BusinessException;
+import com.indramakers.example.measuresms.exceptions.NotFoundException;
 import com.indramakers.example.measuresms.model.entities.Location;
 import com.indramakers.example.measuresms.repositories.IDevicesRepository;
 import com.indramakers.example.measuresms.repositories.LocationRepository;
@@ -22,7 +25,12 @@ public class LocationService {
     }
 
     public List<Location> getLocationById(Long id) {
-        return locationRepository.findLocation(id);
+        if(locationRepository.findLocation(id).size()!=0){
+            return locationRepository.findLocation(id);
+        }
+        else{
+            throw new NotFoundException(ErrorCodes.INVALID_ID_LOCATION.getMessage());
+        }
     }
 
     public void deleteLocationById(Long id){
@@ -30,7 +38,7 @@ public class LocationService {
             locationRepository.delete(id);
         }
         else{
-            throw new RuntimeException("Invalid delete");
+            throw new NotFoundException(ErrorCodes.INVALID_ID_LOCATION.getMessage());
         }
     }
 

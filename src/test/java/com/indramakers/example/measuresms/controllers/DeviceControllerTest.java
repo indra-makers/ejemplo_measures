@@ -3,6 +3,7 @@ package com.indramakers.example.measuresms.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.indramakers.example.measuresms.model.entities.Device;
 import com.indramakers.example.measuresms.model.entities.Measure;
+import com.indramakers.example.measuresms.model.responses.ErrorResponse;
 import com.indramakers.example.measuresms.repositories.IDevicesRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -41,7 +42,8 @@ public class DeviceControllerTest {
                 .content("{\n" +
                         "    \"name\": \"LTB-331\",\n" +
                         "    \"units\": \"CEN\",\n" +
-                        "    \"branch\": \"siemens\"\n" +
+                        "    \"branch\": \"siemens\",\n" +
+                        "    \"idLocation\": \"14\"\n" +
                         "}").contentType(MediaType.APPLICATION_JSON);
 
         MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
@@ -56,11 +58,10 @@ public class DeviceControllerTest {
         Assertions.assertEquals("siemens", deviceToAssert.getBranch());
     }
 
-    //@Test
-    public void createDeviceDeviceAlreadyExist() throws Exception {
+    @Test
+    public void createDeviceAlreadyExist() throws Exception {
         //----la preparacion de los datos de prueba-------
-        devicesRepository.save(new Device("LTB-331", "siemens", "MTS"));
-
+        devicesRepository.save(new Device("LTB-331", "siemens", "MTS", 14L));
         //----la ejecucion de la prueba misma--------------
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post("/devices")
@@ -69,28 +70,52 @@ public class DeviceControllerTest {
                         "    \"units\": \"CEN\",\n" +
                         "    \"branch\": \"siemens\"\n" +
                         "}").contentType(MediaType.APPLICATION_JSON);
-
         MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
         //------------ las verificaciones--------------------
-        Assertions.assertEquals(500, response.getStatus());
+        Assertions.assertEquals(412, response.getStatus());
+
+        String textREsponse = response.getContentAsString();
+        ErrorResponse error = objectMapper.readValue(textREsponse, ErrorResponse.class);
+
+        Assertions.assertEquals("001", error.getCode());
+        Assertions.assertEquals("Device with that name already exists", error.getMessage());
     }
 
     @Test
-    public void createDeviceDeviceWithBadParams() throws Exception {
-        //----la preparacion de los datos de prueba-------
+    public void createDeviceNotExitsLocation() throws Exception {
+        //----la ejecucion de la prueba misma--------------
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post("/devices")
+                .content("{\n" +
+                        "    \"name\": \"LTB-331\",\n" +
+                        "    \"units\": \"CEN\",\n" +
+                        "    \"branch\": \"siemens\",\n" +
+                        "    \"idLocation\": \"145\"\n" +
+                        "}").contentType(MediaType.APPLICATION_JSON);
+        MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
+        //------------ las verificaciones--------------------
+        Assertions.assertEquals(404, response.getStatus());
 
+        String textREsponse = response.getContentAsString();
+        ErrorResponse error = objectMapper.readValue(textREsponse, ErrorResponse.class);
+
+        Assertions.assertEquals("IdLocation not exist", error.getMessage());
+    }
+
+    @Test
+    public void createDeviceWithBadParams() throws Exception {
         //----la ejecucion de la prueba misma--------------
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post("/devices")
                 .content("{\n" +
                         "    \"name\": \"abc-331\",\n" +
                         "    \"units\": \"CEN\",\n" +
-                        "    \"branch\": \"siemens\"\n" +
+                        "    \"branch\": \"siemens\",\n" +
+                        "    \"idLocation\": \"145\"\n" +
                         "}").contentType(MediaType.APPLICATION_JSON);
-
         MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
         //------------ las verificaciones--------------------
-        Assertions.assertEquals(400, response.getStatus());
+        Assertions.assertEquals(404, response.getStatus());
     }
 
     @Test
@@ -120,18 +145,18 @@ public class DeviceControllerTest {
         Assertions.assertEquals(200, response.getStatus());
 
         Device[] devices = objectMapper.readValue(response.getContentAsString(), Device[].class);
-        Assertions.assertEquals(3, devices.length);
+        Assertions.assertEquals(5, devices.length);
     }
 
     @Test
-    public void getDeviceByLocataionDontFind() throws Exception {
+    public void getDeviceByLocataionNotFind() throws Exception {
         //----la ejecucion de la prueba misma--------------
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .get("/devices/12/locations");
 
         MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
         //------------ las verificaciones--------------------
-        Assertions.assertEquals(400, response.getStatus());
+        Assertions.assertEquals(404, response.getStatus());
     }
 
 
