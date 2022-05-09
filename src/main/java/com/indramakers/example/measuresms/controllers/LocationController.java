@@ -1,5 +1,6 @@
 package com.indramakers.example.measuresms.controllers;
 
+import com.indramakers.example.measuresms.config.Routes;
 import com.indramakers.example.measuresms.model.entities.Device;
 import com.indramakers.example.measuresms.model.entities.Location;
 import com.indramakers.example.measuresms.model.entities.Measure;
@@ -15,7 +16,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/locations")
+@RequestMapping(Routes.LOCATIONS_PATH)
 public class LocationController {
 
     @Autowired
@@ -30,7 +31,7 @@ public class LocationController {
     /**
      * GET /locations/{id_location}
      */
-    @GetMapping("/{id_location}")
+    @GetMapping(Routes.LOCATIONS_BY_ID_LOCATION)
     public List<Location> getLocation(
             @PathVariable(name="id_location") int id) {
 
@@ -42,15 +43,14 @@ public class LocationController {
      * POST
      */
     @PostMapping
-    public void addLocation(@RequestBody Location location) {
-
+    public void addLocation(@Valid @RequestBody Location location) {
         locationService.registerLocation(location);
     }
 
     /**
      * GET /locations/{id_location}/device
      */
-    @GetMapping("/{id_location}/device")
+    @GetMapping(Routes.DEVICE_BY_LOCATION_PATH)
     public List<Device> getLocationDevice(
             @PathVariable("id_location") int id) {
 
@@ -60,7 +60,7 @@ public class LocationController {
     /**
      * GET /locations/{id_location}/measure
      */
-    @GetMapping("/{id_location}/measure")
+    @GetMapping(Routes.MEASURE_BY_LOCATION_PATH)
     public List<Measure> getLocationMeasure(
             @PathVariable("id_location") int id) {
 
@@ -69,10 +69,9 @@ public class LocationController {
 
     /**
      * URL /location
-     *
      * @param id
      */
-    @DeleteMapping ("/{id_location}")
+    @DeleteMapping (Routes.LOCATIONS_BY_ID_LOCATION)
     public void delete(@PathVariable("id_location") int id) {
         locationService.deleteLocation(id);
     }

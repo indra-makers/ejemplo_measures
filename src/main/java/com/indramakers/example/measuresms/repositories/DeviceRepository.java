@@ -1,6 +1,7 @@
 package com.indramakers.example.measuresms.repositories;
 
 import com.indramakers.example.measuresms.model.entities.Device;
+import com.indramakers.example.measuresms.model.entities.Measure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -34,5 +35,6 @@ public class DeviceRepository {
                 new DevicesRowMapper() ,
                 id);
     }
+
 
 }

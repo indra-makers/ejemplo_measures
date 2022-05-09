@@ -1,5 +1,6 @@
 package com.indramakers.example.measuresms.controllers;
 
+import com.indramakers.example.measuresms.config.Routes;
 import com.indramakers.example.measuresms.model.entities.Device;
 import com.indramakers.example.measuresms.model.entities.Location;
 import com.indramakers.example.measuresms.model.entities.Measure;
@@ -14,7 +15,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/devices")
+@RequestMapping(Routes.DEVICES_PATH)
 public class DeviceController {
     @Autowired
     private DeviceService deviceService;
@@ -23,7 +24,6 @@ public class DeviceController {
 
     /**
      * URL /devices
-     *
      * @param device
      */
     @PostMapping
@@ -33,7 +33,6 @@ public class DeviceController {
 
     /**
      * GET /devices?marca={{marca}},
-     *
      * @param branch
      * @return
      */
@@ -44,11 +43,10 @@ public class DeviceController {
 
     /**
      * GET /devices/by-branch?branch={{valor}}
-     *
      * @param branch
      * @return
      */
-    @GetMapping("/by-branch")
+    @GetMapping(Routes.DEVICE_BY_BRANCH_PATH)
     public List<Device> getDevicesByBranch2(@RequestParam(name = "branch") String branch) {
         return deviceService.getBytBranch(branch);
     }
@@ -58,7 +56,7 @@ public class DeviceController {
      * POST
      * PARAMS: body -> { value: 12312 }
      */
-    @PostMapping("/{deviceId}/measures")
+    @PostMapping(Routes.MEASURES_BY_DEVICE_PATH)
     public void addMeasureToDevice(
             @Valid @RequestBody MeasureValueRequest request,
             @PathVariable("deviceId") Long deviceId) {
@@ -69,7 +67,7 @@ public class DeviceController {
     /**
      * GET /devices/{id}/measures
      */
-    @GetMapping("/{deviceId}/measures")
+    @GetMapping(Routes.MEASURES_BY_DEVICE_PATH)
     public List<Measure> getDeviceMeasures(
             @PathVariable("deviceId") Long deviceId) {
 

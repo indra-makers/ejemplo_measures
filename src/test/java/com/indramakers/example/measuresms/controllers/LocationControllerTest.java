@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.indramakers.example.measuresms.model.entities.Device;
 import com.indramakers.example.measuresms.model.entities.Location;
 import com.indramakers.example.measuresms.model.entities.Measure;
+import com.indramakers.example.measuresms.model.responses.ErrorResponse;
 import com.indramakers.example.measuresms.repositories.IDevicesRepository;
 import com.indramakers.example.measuresms.repositories.LocationRepository;
 import net.bytebuddy.implementation.bytecode.Throw;
@@ -53,7 +54,32 @@ public class LocationControllerTest {
     }
 
     @Test
-    public void createLocationHappyPath() throws Exception {
+    public void addLocationHappyPath() throws Exception {
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .post("/locations")
+                .content("{\n" +
+                        "    \"id\": \"10\",\n" +
+                        "    \"name\": \"location10\"\n" +
+                        "}").contentType(MediaType.APPLICATION_JSON);
+
+        MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
+        Assertions.assertEquals(200, response.getStatus());
+
+        List<Location> location = locationRepository.findById(10);
+        Assertions.assertEquals(1, location.size());
+
+        Location locationToAssert = location.get(0);
+
+        Assertions.assertEquals(10, locationToAssert.getId());
+        Assertions.assertEquals("location10", locationToAssert.getName());
+    }
+
+    @Test
+    public void addLocationLocationAlreadyExist() throws Exception {
+        //----la preparacion de los datos de prueba-------
+        locationRepository.create(new Location(9,"location9"));
+
+        //----la ejecucion de la prueba misma--------------
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post("/locations")
                 .content("{\n" +
@@ -62,15 +88,15 @@ public class LocationControllerTest {
                         "}").contentType(MediaType.APPLICATION_JSON);
 
         MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
-        Assertions.assertEquals(200, response.getStatus());
+        //------------ las verificaciones--------------------
+        Assertions.assertEquals(412, response.getStatus());
 
-        List<Location> location = locationRepository.findById(9);
-        Assertions.assertEquals(1, location.size());
+        String textREsponse = response.getContentAsString();
+        ErrorResponse error = objectMapper.readValue(textREsponse, ErrorResponse.class);
 
-        Location locationToAssert = location.get(0);
+        Assertions.assertEquals("001", error.getCode());
+        Assertions.assertEquals("Location with that id already exists", error.getMessage());
 
-        Assertions.assertEquals(9, locationToAssert.getId());
-        Assertions.assertEquals("location9", locationToAssert.getName());
     }
 
     @Test
@@ -85,7 +111,28 @@ public class LocationControllerTest {
         Assertions.assertEquals(200, response.getStatus());
 
         Device[] device = objectMapper.readValue(response.getContentAsString(), Device[].class);
-        Assertions.assertEquals(1, device.length);
+        Assertions.assertEquals(2, device.length);
+    }
+
+    @Test
+    public void getDeviceLocationNotExist() throws Exception {
+        //----la preparacion de los datos de prueba-------
+
+        //----la ejecucion de la prueba misma--------------
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .get("/locations/11/device")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
+        //------------ las verificaciones--------------------
+        Assertions.assertEquals(404, response.getStatus());
+
+        String textREsponse = response.getContentAsString();
+        ErrorResponse error = objectMapper.readValue(textREsponse, ErrorResponse.class);
+
+        Assertions.assertEquals("BAD_PARAMETERS", error.getCode());
+        Assertions.assertEquals("Location with that id not exists", error.getMessage());
+
     }
 
     @Test
@@ -101,6 +148,27 @@ public class LocationControllerTest {
 
         Measure[] measure = objectMapper.readValue(response.getContentAsString(), Measure[].class);
         Assertions.assertEquals(4, measure.length);
+    }
+
+    @Test
+    public void getMeasureLocationNotExist() throws Exception {
+        //----la preparacion de los datos de prueba-------
+
+        //----la ejecucion de la prueba misma--------------
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .get("/locations/11/measure")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
+        //------------ las verificaciones--------------------
+        Assertions.assertEquals(404, response.getStatus());
+
+        String textREsponse = response.getContentAsString();
+        ErrorResponse error = objectMapper.readValue(textREsponse, ErrorResponse.class);
+
+        Assertions.assertEquals("BAD_PARAMETERS", error.getCode());
+        Assertions.assertEquals("Location with that id not exists", error.getMessage());
+
     }
 
     @Test
@@ -126,6 +194,5 @@ public class LocationControllerTest {
 
 
     }
-
 
 }
