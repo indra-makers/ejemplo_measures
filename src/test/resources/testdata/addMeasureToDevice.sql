@@ -1,0 +1,2 @@
+INSERT INTO public.tb_locations(id_location, name, created_at) values(12, 'aaaddd', now());
+INSERT INTO public.tb_devices (id_device,name_device, branch_device, measure_unit, created_at,id_location) VALUES(1000,'ABC-123', 'motorola', 'amp', now(), 12);

@@ -15,7 +15,7 @@ class MeasureRowMapper implements RowMapper<Measure> {
     @Override
     public Measure mapRow(ResultSet rs, int rowNum) throws SQLException {
         Measure measure = new Measure();
-        measure.setDeviceId(rs.getString("device_id"));
+        measure.setDeviceId(rs.getLong("device_id"));
         measure.setId(rs.getLong("id"));
         measure.setValue(rs.getDouble("value"));
         measure.setDateTime(rs.getDate("date_time"));
@@ -34,7 +34,7 @@ public class MeasureRepository {
                measure.getValue(), measure.getDeviceId());
     }
 
-    public List<Measure> findByDevice(String deviceId) {
+    public List<Measure> findByDevice(Long deviceId) {
         return template.query(
                 "SELECT id, date_time, value, device_id FROM tb_measures WHERE device_id=?",
                 new MeasureRowMapper() ,

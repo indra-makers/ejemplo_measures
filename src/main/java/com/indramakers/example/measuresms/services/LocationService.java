@@ -1,5 +1,7 @@
 package com.indramakers.example.measuresms.services;
 
+import com.indramakers.example.measuresms.config.ErrorCodes;
+import com.indramakers.example.measuresms.exceptions.BusinessException;
 import com.indramakers.example.measuresms.model.entities.Location;
 import com.indramakers.example.measuresms.model.entities.Measure;
 import com.indramakers.example.measuresms.repositories.IDevicesRepository;
@@ -20,7 +22,7 @@ public class LocationService {
         if(locationRepository.findByLocationName(location.getName()).isEmpty()){
             locationRepository.createLocation(location);
         }else{
-            throw new RuntimeException("Error, el nombre de location indicado ya existe");
+            throw new BusinessException(ErrorCodes.LOCATION_NOT_FOUND);
         }
 
     }
@@ -33,7 +35,7 @@ public class LocationService {
         if (iDevicesRepository.findByIdLocation(id_location).isEmpty()){
             locationRepository.deleteLocation(id_location);
         }else{
-            throw new RuntimeException("Error, hay un device asociado a esa location");
+            throw new BusinessException(ErrorCodes.LOCATION_NOT_FOUND);
         }
 
     }

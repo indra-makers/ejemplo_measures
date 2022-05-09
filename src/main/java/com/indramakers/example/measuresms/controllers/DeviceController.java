@@ -61,7 +61,7 @@ public class DeviceController {
     @PostMapping("/{deviceId}/measures")
     public void addMeasureToDevice(
             @Valid @RequestBody MeasureValueRequest request,
-            @PathVariable("deviceId") String deviceId) {
+            @PathVariable("deviceId") Long deviceId) {
 
         measureService.registerMeasure(deviceId, request.getValue());
     }
@@ -72,7 +72,7 @@ public class DeviceController {
 
     @GetMapping("/{deviceId}/measures")
     public List<Measure> getDeviceMeasures(
-            @PathVariable("deviceId") String deviceId) {
+            @PathVariable("deviceId") Long deviceId) {
 
         return measureService.getMeasuresByDevice(deviceId);
     }

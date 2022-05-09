@@ -1,7 +1,11 @@
 package com.indramakers.example.measuresms.services;
 
+import com.indramakers.example.measuresms.config.ErrorCodes;
+import com.indramakers.example.measuresms.exceptions.BusinessException;
 import com.indramakers.example.measuresms.model.entities.Device;
+import com.indramakers.example.measuresms.model.entities.Location;
 import com.indramakers.example.measuresms.repositories.IDevicesRepository;
+import com.indramakers.example.measuresms.repositories.LocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +17,9 @@ public class DeviceService {
     @Autowired
     private IDevicesRepository devicesRepository;
 
+    @Autowired
+    private LocationRepository locationRepository;
+
     /**
      * Create device
      * na devices with repeated name.
@@ -23,8 +30,14 @@ public class DeviceService {
         List<Device> devicesByName = devicesRepository.findByName(device.getName());
 
         if (!devicesByName.isEmpty()) {
-            throw new RuntimeException("Device with that name already exists");
+            throw new BusinessException(ErrorCodes.DEVICE_WITH_NAME_EXISTS);
         }
+
+        List<Location> locationById = locationRepository.findByLocationId(device.getIdLocation());
+        if(locationById.isEmpty()){
+            throw new BusinessException(ErrorCodes.DEVICE_LOCATION_NOT_FOUND);
+        }
+
 
         devicesRepository.save(device);
     }

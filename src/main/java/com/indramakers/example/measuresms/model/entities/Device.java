@@ -39,7 +39,7 @@ public class Device implements Serializable {
     private Date updatedAt;
 
 
-    @Column(name = "location_id")
+    @Column(name = "id_location")
     private Long idLocation;
 
     public Device() {
@@ -54,11 +54,12 @@ public class Device implements Serializable {
         this.idLocation=IdLocation;
     }
 
-    public Device(String name, String branch, String units) {
+    public Device(String name, String branch, String units,Long IdLocation) {
         this.name = name;
         this.branch = branch;
         this.units = units;
         createdAt = new Date();
+        this.idLocation=IdLocation;
     }
 
     public Long getId() {
