@@ -1,6 +1,6 @@
 package com.indramakers.example.measuresms.controllers;
 
-import java.sql.SQLException;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +29,7 @@ public class LocationController {
 	}
 
 	@DeleteMapping(Routes.ELIMINAR_LOCATION)
-	public void delete(@RequestParam(name = "id") int id) throws SQLException {
+	public void delete(@RequestParam(name = "id") int id) {
 
 		locationService.delete(id);
 

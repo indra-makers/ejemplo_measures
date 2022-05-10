@@ -1,6 +1,5 @@
 package com.indramakers.example.measuresms.repositories;
 
-import com.indramakers.example.measuresms.model.entities.Locations;
 import com.indramakers.example.measuresms.model.entities.Measure;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,7 +23,6 @@ class MeasureRowMapper implements RowMapper<Measure> {
 
 @Repository
 public class MeasureRepository {
-
 	@Autowired
 	private JdbcTemplate template;
 
@@ -37,7 +35,5 @@ public class MeasureRepository {
 		return template.query("SELECT id, date_time, value, device_id FROM tb_measures WHERE device_id=?",
 				new MeasureRowMapper(), deviceId);
 	}
-	
-	
 
 }

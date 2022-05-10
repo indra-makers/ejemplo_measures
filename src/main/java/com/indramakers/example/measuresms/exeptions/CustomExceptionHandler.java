@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
+import java.sql.SQLException;
+
 import org.springframework.http.HttpStatus;
 
 import com.indramakers.example.measuresms.model.response.ErrorResponse;
@@ -35,9 +38,9 @@ public class CustomExceptionHandler {
 	 
 	 @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	    @ResponseBody
-	    @ExceptionHandler(Exception.class)
-	    public ErrorResponse handleException(Exception exception) {
-	        return new ErrorResponse("500", exception.getMessage());
+	    @ExceptionHandler(SQLException.class)
+	    public ErrorResponse handleException(SQLException exception) {
+	        return new ErrorResponse("500", "la locacion tiene uno o mas dispositivos");
 	    }
 
 }

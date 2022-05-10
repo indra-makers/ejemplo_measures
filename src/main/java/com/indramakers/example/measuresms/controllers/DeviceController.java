@@ -32,9 +32,10 @@ public class DeviceController {
 		deviceService.createDevice(device);
 	}
 	
+	//devuelve los dispositivos con una locacion
 	@GetMapping(Routes.DEVICE_LOCATION)
-	public void getDeviceLocation(@RequestParam(name = "id") int id) {
-		deviceService.getDeviceLocation(id);
+	public List<Device> getDeviceLocation(@RequestParam(name = "id") int id) {
+		return deviceService.getDeviceLocation(id);
 		
 	}
 
@@ -44,10 +45,10 @@ public class DeviceController {
 	 * @param branch
 	 * @return
 	 */
-	@GetMapping
-	public List<Device> getDevicesByBranch(@RequestParam(name = "branch") String branch) {
-		return deviceService.getBytBranch(branch);
-	}
+	//@GetMapping
+	//public List<Device> getDevicesByBranch(@RequestParam(name = "branch") String branch) {
+		//return deviceService.getBytBranch(branch);
+	//}
 //wipidi
 	/**
 	 * GET /devices/by-branch?branch={{valor}}
@@ -55,14 +56,15 @@ public class DeviceController {
 	 * @param branch
 	 * @return
 	 */
-	@GetMapping(Routes.DEVICE_BY_BRANCH_PATH)
-	public List<Device> getDevicesByBranch2(@RequestParam(name = "branch") String branch) {
-		return deviceService.getBytBranch(branch);
-	}
+	//@GetMapping(Routes.DEVICE_BY_BRANCH_PATH)
+	//public List<Device> getDevicesByBranch2(@RequestParam(name = "branch") String branch) {
+		//return deviceService.getBytBranch(branch);
+	//}
 
 	/**
 	 * PATH /devices/{deviceId}/measures POST PARAMS: body -> { value: 12312 }
 	 */
+	
 	@PostMapping(Routes.MEASURES_BY_DEVICE_PATH)
 	public void addMeasureToDevice(@Valid @RequestBody MeasureValueRequest request,
 			@PathVariable("deviceId") int deviceId) {
@@ -74,6 +76,7 @@ public class DeviceController {
 	 * GET /devices/{id}/measures
 	 */
 
+	//devuelve las medidas con un dispositivo
 	@GetMapping(Routes.MEASURES_BY_DEVICE_PATH)
 	public List<Measure> getDeviceMeasures(@PathVariable("deviceId") int deviceId) {
 

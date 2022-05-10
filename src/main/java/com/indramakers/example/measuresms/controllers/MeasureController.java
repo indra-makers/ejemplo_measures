@@ -1,5 +1,7 @@
 package com.indramakers.example.measuresms.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,8 +28,8 @@ public class MeasureController {
 	}
 	
 	@GetMapping(Routes.MEASURE_LOCATIONS)
-	public void getMeasureLocation(@RequestParam(name = "id") int id) {
-		measureService.getMeasuresByDevice(id);
+	public List<Measure> getMeasureLocation(@RequestParam(name = "id") int id) {
+		return measureService.getMeasuresByDevice(id);
 	}
 	
 	

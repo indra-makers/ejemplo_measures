@@ -1,6 +1,7 @@
 package com.indramakers.example.measuresms.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.indramakers.example.measuresms.config.Routes;
 import com.indramakers.example.measuresms.model.entities.Device;
 import com.indramakers.example.measuresms.model.entities.Measure;
 import com.indramakers.example.measuresms.repositories.IDevicesRepository;
@@ -22,7 +23,7 @@ import java.util.List;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional  //por cada test hace un rollback
+@Transactional  
 public class DeviceControllerTest {
 
     @Autowired
@@ -37,31 +38,32 @@ public class DeviceControllerTest {
     @Test
     public void createDeviceHappyPath() throws Exception {
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .post("/devices")
+                .post(Routes.DEVICES_PATH)
                 .content("{\n" +
-                        "    \"name\": \"LTB-331\",\n" +
-                        "    \"units\": \"CEN\",\n" +
-                        "    \"branch\": \"siemens\"\n" +
+                        "    \"name\": \"L88-331\",\n" +
+                        "    \"branch\": \"siemens\",\n" +
+                        "    \"units\": \"celsius\"\n" +
+                        "    \"idLocation\": 10\n" +
                         "}").contentType(MediaType.APPLICATION_JSON);
 
         MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
         Assertions.assertEquals(200, response.getStatus());
 
-        List<Device>  devices = devicesRepository.findByName("LTB-331");
+        List<Device>  devices = devicesRepository.findByName("LIQ-888");
         Assertions.assertEquals(1, devices.size());
 
         Device deviceToAssert = devices.get(0);
 
-        Assertions.assertEquals("CEN", deviceToAssert.getUnits());
+        Assertions.assertEquals("celcius", deviceToAssert.getUnits());
         Assertions.assertEquals("siemens", deviceToAssert.getBranch());
     }
 
     //@Test
     public void createDeviceDeviceAlreadyExist() throws Exception {
-        //----la preparacion de los datos de prueba-------
+
         devicesRepository.save(new Device("LTB-331", "siemens", "MTS",1));
 
-        //----la ejecucion de la prueba misma--------------
+
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post("/devices")
                 .content("{\n" +
@@ -78,9 +80,7 @@ public class DeviceControllerTest {
 
     @Test
     public void createDeviceDeviceWithBadParams() throws Exception {
-        //----la preparacion de los datos de prueba-------
 
-        //----la ejecucion de la prueba misma--------------
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .post("/devices")
                 .content("{\n" +
@@ -88,29 +88,23 @@ public class DeviceControllerTest {
                         "    \"units\": \"CEN\",\n" +
                         "    \"branch\": \"siemens\"\n" +
                         "}").contentType(MediaType.APPLICATION_JSON);
-
         MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
-        //------------ las verificaciones--------------------
         Assertions.assertEquals(400, response.getStatus());
     }
-
     @Test
     @Sql("/testdata/get_device_measures.sql")
     public void getDeviceMeasures() throws Exception {
-        //----la ejecucion de la prueba misma--------------
+  
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
                 .get("/devices/1000/measures")
                 .contentType(MediaType.APPLICATION_JSON);
 
         MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
-        //------------ las verificaciones--------------------
+  
         Assertions.assertEquals(200, response.getStatus());
 
         Measure[] measures = objectMapper.readValue(response.getContentAsString(), Measure[].class);
         Assertions.assertEquals(4, measures.length);
     }
-
-
-
 
 }
