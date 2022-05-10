@@ -1,5 +1,6 @@
 package com.indramakers.example.measuresms.services;
 
+import com.indramakers.example.measuresms.excepciones.BussinessException;
 import com.indramakers.example.measuresms.model.entities.Location;
 import com.indramakers.example.measuresms.model.entities.Measure;
 import com.indramakers.example.measuresms.repositories.IDevicesRepository;
@@ -30,7 +31,7 @@ public class LocationService {
         if (devicesRepository.findByLocation(id).size() == 0){
             locationRepository.deleteLocation(id);
         }else{
-            throw  new RuntimeException("Eliminacion invalida, device asociado a localizacion");
+            throw  new BussinessException("Eliminacion invalida, device asociado a localizacion", "003");
         }
     }
 }
