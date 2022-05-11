@@ -24,11 +24,11 @@ public class MeasureService {
     public void registerMeasure(String deviceId, Double value) {
 
         if (!devicesRepository.existsById(Long.valueOf(deviceId))) {
-            throw new NotFoundException(ErrorCodes.DEVICE_NOT_FOUND.getMessage());
+            //throw new NotFoundException(ErrorCodes.DEVICE_NOT_FOUND.getMessage());
         }
 
         if (value < Config.MIN_MEAUSURE_VALUE || value > Config.MAX_MEAUSURE_VALUE) {
-            throw new BusinessException(ErrorCodes.MEASURE_VALUES_OUT_OF_RANGE);
+            //throw new BusinessException(ErrorCodes.MEASURE_VALUES_OUT_OF_RANGE);
         }
 
         measureRepository.create(new Measure(deviceId, value));
