@@ -18,6 +18,7 @@ public class DeviceService {
     /**
      * Create device
      * na devices with repeated name.
+     *
      * @param device
      */
     public void createDevice(Device device) {
@@ -33,6 +34,7 @@ public class DeviceService {
 
     /**
      * get devices by branch
+     *
      * @param branch
      * @return list of devices
      */

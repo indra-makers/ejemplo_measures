@@ -31,13 +31,13 @@ public class MeasureRepository {
 
     public void create(Measure measure) {
         template.update("INSERT INTO tb_measures(value, device_id) values(?,?)",
-               measure.getValue(), measure.getDeviceId());
+                measure.getValue(), measure.getDeviceId());
     }
 
     public List<Measure> findByDevice(String deviceId) {
         return template.query(
                 "SELECT id, date_time, value, device_id FROM tb_measures WHERE device_id=?",
-                new MeasureRowMapper() ,
+                new MeasureRowMapper(),
                 deviceId);
     }
 }
