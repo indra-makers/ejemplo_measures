@@ -32,7 +32,7 @@ public class Device implements Serializable {
     @Pattern(regexp = "[A-Z]{3}")
     private String units;
 
-    @Column(name = "CREATE_AT")
+    @Column(name = "created_at")
     private Date createdAtDate;
 
     @Column(name = "updated_at")
