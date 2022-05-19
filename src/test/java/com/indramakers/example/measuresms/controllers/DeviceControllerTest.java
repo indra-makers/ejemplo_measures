@@ -43,7 +43,7 @@ public class DeviceControllerTest {
     @Test
     public void createDeviceHappyPath() throws Exception {
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .post("/devices")
+                .post("/devices?page=1&size=5")
                 .content("{\n" +
                         "    \"name\": \"LTB-331\",\n" +
                         "    \"units\": \"CEN\",\n" +

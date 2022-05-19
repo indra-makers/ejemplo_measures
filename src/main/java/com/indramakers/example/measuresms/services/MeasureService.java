@@ -5,6 +5,9 @@ import com.indramakers.example.measuresms.config.ErrorCodes;
 import com.indramakers.example.measuresms.exceptions.BusinessException;
 import com.indramakers.example.measuresms.exceptions.NotFoundException;
 import com.indramakers.example.measuresms.model.entities.Measure;
+import com.indramakers.example.measuresms.model.responses.ListMEasuresResponses;
+import com.indramakers.example.measuresms.model.responses.MeasureSummary;
+import com.indramakers.example.measuresms.model.responses.MeasureSummaryResponse;
 import com.indramakers.example.measuresms.repositories.IDevicesRepository;
 import com.indramakers.example.measuresms.repositories.MeasureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,4 +40,24 @@ public class MeasureService {
     public List<Measure> getMeasuresByDevice(String deviceId) {
         return measureRepository.findByDevice(deviceId);
     }
+
+    public ListMEasuresResponses getSummary(String deviceId) {
+        List<Measure> measures  = measureRepository.findByDevice(deviceId);
+
+        double sum = 0;
+
+        for (Measure measure: measures) {
+            sum += measure.getValue();
+        }
+
+        return new ListMEasuresResponses(measures, sum);
+    }
+
+    public MeasureSummaryResponse getAllSummary() {
+        List<MeasureSummary> list = measureRepository.getSummary();
+
+        return new MeasureSummaryResponse(list);
+    }
+
+
 }

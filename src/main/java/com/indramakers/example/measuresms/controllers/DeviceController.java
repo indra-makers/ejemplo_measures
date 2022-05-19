@@ -4,6 +4,8 @@ import com.indramakers.example.measuresms.config.Routes;
 import com.indramakers.example.measuresms.model.entities.Device;
 import com.indramakers.example.measuresms.model.entities.Measure;
 import com.indramakers.example.measuresms.model.requests.MeasureValueRequest;
+import com.indramakers.example.measuresms.model.responses.ListMEasuresResponses;
+import com.indramakers.example.measuresms.model.responses.MeasureSummaryResponse;
 import com.indramakers.example.measuresms.services.DeviceService;
 import com.indramakers.example.measuresms.services.MeasureService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +78,16 @@ public class DeviceController {
             @PathVariable("deviceId") String deviceId) {
 
         return measureService.getMeasuresByDevice(deviceId);
+    }
+
+    @GetMapping("/{deviceId}/measures/summary")
+    public ListMEasuresResponses getMeasuresSummary(@PathVariable("deviceId") String sensorId) {
+        return measureService.getSummary(sensorId);
+    }
+
+    @GetMapping("/measures/summary")
+    public MeasureSummaryResponse getAllSummary() {
+        return measureService.getAllSummary();
     }
 
 }

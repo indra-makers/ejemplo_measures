@@ -1,6 +1,7 @@
 package com.indramakers.example.measuresms.repositories;
 
 import com.indramakers.example.measuresms.model.entities.Measure;
+import com.indramakers.example.measuresms.model.responses.MeasureSummary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -39,5 +40,11 @@ public class MeasureRepository {
                 "SELECT id, date_time, value, device_id FROM tb_measures WHERE device_id=?",
                 new MeasureRowMapper(),
                 deviceId);
+    }
+
+    public List<MeasureSummary> getSummary() {
+        return template.query("select avg(value) average, device_id from tb_measures group by device_id",
+                (rs, rn) -> new MeasureSummary(rs.getString("device_id"),
+                           rs.getDouble("average")));
     }
 }
