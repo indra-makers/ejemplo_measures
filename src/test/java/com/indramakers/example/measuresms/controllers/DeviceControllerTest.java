@@ -1,5 +1,6 @@
 package com.indramakers.example.measuresms.controllers;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.indramakers.example.measuresms.config.Routes;
 import com.indramakers.example.measuresms.model.entities.Device;
@@ -11,6 +12,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -110,15 +113,20 @@ public class DeviceControllerTest {
     public void getDeviceMeasures() throws Exception {
         //----la ejecucion de la prueba misma--------------
         MockHttpServletRequestBuilder request = MockMvcRequestBuilders
-                .get("/devices/1000/measures")
+                .get("/devices/1000/measures?page=0&size=2")
                 .contentType(MediaType.APPLICATION_JSON);
 
         MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
         //------------ las verificaciones--------------------
         Assertions.assertEquals(200, response.getStatus());
 
-        Measure[] measures = objectMapper.readValue(response.getContentAsString(), Measure[].class);
-        Assertions.assertEquals(4, measures.length);
+        JsonNode nodes = objectMapper.readTree(response.getContentAsString());
+
+        Measure[] data = objectMapper.readValue(nodes.get("content").toString(), Measure[].class);
+        Assertions.assertEquals(2, data.length);
+
+        Assertions.assertEquals(2, nodes.get("pageable").get("pageSize").asInt());
+        Assertions.assertEquals(0, nodes.get("pageable").get("pageNumber").asInt());
     }
 
     @Test

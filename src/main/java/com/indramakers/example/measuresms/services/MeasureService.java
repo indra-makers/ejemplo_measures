@@ -11,6 +11,8 @@ import com.indramakers.example.measuresms.model.responses.MeasureSummaryResponse
 import com.indramakers.example.measuresms.repositories.IDevicesRepository;
 import com.indramakers.example.measuresms.repositories.MeasureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,12 +39,12 @@ public class MeasureService {
         measureRepository.create(new Measure(deviceId, value));
     }
 
-    public List<Measure> getMeasuresByDevice(String deviceId) {
-        return measureRepository.findByDevice(deviceId);
+    public Page<Measure> getMeasuresByDevice(String deviceId, Pageable page) {
+        return measureRepository.findByDevice(deviceId, page);
     }
 
     public ListMEasuresResponses getSummary(String deviceId) {
-        List<Measure> measures  = measureRepository.findByDevice(deviceId);
+        Page<Measure> measures  = measureRepository.findByDevice(deviceId, Pageable.unpaged());
 
         double sum = 0;
 
@@ -50,7 +52,7 @@ public class MeasureService {
             sum += measure.getValue();
         }
 
-        return new ListMEasuresResponses(measures, sum);
+        return new ListMEasuresResponses(measures.getContent(), sum);
     }
 
     public MeasureSummaryResponse getAllSummary() {
