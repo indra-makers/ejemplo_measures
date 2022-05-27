@@ -9,6 +9,8 @@ import com.indramakers.example.measuresms.model.responses.MeasureSummaryResponse
 import com.indramakers.example.measuresms.services.DeviceService;
 import com.indramakers.example.measuresms.services.MeasureService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -74,10 +76,10 @@ public class DeviceController {
      */
 
     @GetMapping(Routes.MEASURES_BY_DEVICE_PATH)
-    public List<Measure> getDeviceMeasures(
-            @PathVariable("deviceId") String deviceId) {
+    public Page<Measure> getDeviceMeasures(
+            @PathVariable("deviceId") String deviceId, Pageable page) {
 
-        return measureService.getMeasuresByDevice(deviceId);
+        return measureService.getMeasuresByDevice(deviceId, page);
     }
 
     @GetMapping("/{deviceId}/measures/summary")

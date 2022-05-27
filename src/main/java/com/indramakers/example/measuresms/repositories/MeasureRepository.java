@@ -3,6 +3,10 @@ package com.indramakers.example.measuresms.repositories;
 import com.indramakers.example.measuresms.model.entities.Measure;
 import com.indramakers.example.measuresms.model.responses.MeasureSummary;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -35,11 +39,18 @@ public class MeasureRepository {
                 measure.getValue(), measure.getDeviceId());
     }
 
-    public List<Measure> findByDevice(String deviceId) {
-        return template.query(
-                "SELECT id, date_time, value, device_id FROM tb_measures WHERE device_id=?",
-                new MeasureRowMapper(),
-                deviceId);
+    public Page<Measure> findByDevice(String deviceId, Pageable page) {
+        Sort.Order order = !page.getSort().isEmpty() ? page.getSort().toList().get(0) : Sort.Order.by("id");
+        List<Measure> users = template.query("SELECT id, date_time, value, device_id FROM tb_measures WHERE device_id=?" +
+                        " ORDER BY " + order.getProperty() + " "
+                        + order.getDirection().name() + " LIMIT " + page.getPageSize() + " OFFSET " + page.getOffset(),
+                new MeasureRowMapper(), deviceId);
+        return new PageImpl<Measure>(users, page, countByDevice(deviceId));
+    }
+
+
+    public int countByDevice(String deviceId) {
+        return template.queryForObject("SELECT count(1) FROM tb_measures WHERE device_id=?", Integer.class, deviceId);
     }
 
     public List<MeasureSummary> getSummary() {
