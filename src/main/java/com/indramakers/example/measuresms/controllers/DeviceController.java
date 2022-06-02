@@ -6,6 +6,7 @@ import com.indramakers.example.measuresms.model.entities.Measure;
 import com.indramakers.example.measuresms.model.requests.MeasureValueRequest;
 import com.indramakers.example.measuresms.model.responses.ListMEasuresResponses;
 import com.indramakers.example.measuresms.model.responses.MeasureSummaryResponse;
+import com.indramakers.example.measuresms.services.ClimaService;
 import com.indramakers.example.measuresms.services.DeviceService;
 import com.indramakers.example.measuresms.services.MeasureService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class DeviceController {
 
     @Autowired
     private MeasureService measureService;
+
+    @Autowired
+    private ClimaService climaService;
 
     /**
      * URL /devices
@@ -90,6 +94,12 @@ public class DeviceController {
     @GetMapping("/measures/summary")
     public MeasureSummaryResponse getAllSummary() {
         return measureService.getAllSummary();
+    }
+
+
+    @GetMapping("/clima")
+    public String isCaliente(@RequestParam Double lat, @RequestParam Double lon) {
+        return climaService.isColdOrHot(lat, lon);
     }
 
 }

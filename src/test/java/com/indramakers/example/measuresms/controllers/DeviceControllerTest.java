@@ -2,6 +2,7 @@ package com.indramakers.example.measuresms.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.indramakers.example.measuresms.api.clients.StormGlassWeather;
 import com.indramakers.example.measuresms.config.Routes;
 import com.indramakers.example.measuresms.model.entities.Device;
 import com.indramakers.example.measuresms.model.entities.Measure;
@@ -9,18 +10,26 @@ import com.indramakers.example.measuresms.model.responses.ErrorResponse;
 import com.indramakers.example.measuresms.repositories.IDevicesRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -42,6 +51,9 @@ public class DeviceControllerTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @MockBean
+    private RestTemplate restTemplate;
 
     @Test
     public void createDeviceHappyPath() throws Exception {
@@ -170,5 +182,53 @@ public class DeviceControllerTest {
     }
 
 
+    @Test
+    public void testCAlor() throws Exception {
+        StormGlassWeather mockedResponse = new StormGlassWeather(List.of(new StormGlassWeather.Hours("2020-01-01", new StormGlassWeather.AirTemperature("30"))));
+        ResponseEntity res = new ResponseEntity<StormGlassWeather>(mockedResponse, HttpStatus.OK);
+
+        Mockito.when(restTemplate.exchange(
+                Mockito.anyString(),
+                        Mockito.any(HttpMethod.class),
+                        Mockito.any(),
+                        Mockito.<Class<StormGlassWeather>>any()))
+                .thenReturn(res);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .get("/devices/clima?lat=58.7984&lon=17.8081")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
+        //------------ las verificaciones--------------------
+        Assertions.assertEquals(200, response.getStatus());
+
+        String nodes = (response.getContentAsString());
+        Assertions.assertEquals("calido", nodes);
+    }
+
+    @Test
+    public void testFrio() throws Exception {
+        StormGlassWeather mockedResponse = new StormGlassWeather(List.of(new StormGlassWeather.Hours("2020-01-01",
+                new StormGlassWeather.AirTemperature("10"))));
+        ResponseEntity res = new ResponseEntity<StormGlassWeather>(mockedResponse, HttpStatus.OK);
+
+        Mockito.when(restTemplate.exchange(
+                        Mockito.anyString(),
+                        Mockito.any(HttpMethod.class),
+                        Mockito.any(),
+                        Mockito.<Class<StormGlassWeather>>any()))
+                .thenReturn(res);
+
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .get("/devices/clima?lat=58.7984&lon=17.8081")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
+        //------------ las verificaciones--------------------
+        Assertions.assertEquals(200, response.getStatus());
+
+        String nodes = (response.getContentAsString());
+        Assertions.assertEquals("frio", nodes);
+    }
 
 }
