@@ -40,12 +40,18 @@ public class MeasureRepository {
     }
 
     public Page<Measure> findByDevice(String deviceId, Pageable page) {
-        Sort.Order order = !page.getSort().isEmpty() ? page.getSort().toList().get(0) : Sort.Order.by("id");
-        List<Measure> users = template.query("SELECT id, date_time, value, device_id FROM tb_measures WHERE device_id=?" +
-                        " ORDER BY " + order.getProperty() + " "
-                        + order.getDirection().name() + " LIMIT " + page.getPageSize() + " OFFSET " + page.getOffset(),
-                new MeasureRowMapper(), deviceId);
-        return new PageImpl<Measure>(users, page, countByDevice(deviceId));
+        if (page != null) {
+            Sort.Order order = !page.getSort().isEmpty() ? page.getSort().toList().get(0) : Sort.Order.by("id");
+            List<Measure> users = template.query("SELECT id, date_time, value, device_id FROM tb_measures WHERE device_id=?" +
+                            " ORDER BY " + order.getProperty() + " "
+                            + order.getDirection().name() + " LIMIT " + page.getPageSize() + " OFFSET " + page.getOffset(),
+                    new MeasureRowMapper(), deviceId);
+            return new PageImpl<Measure>(users, page, countByDevice(deviceId));
+        } else {
+            List<Measure> users = template.query("SELECT id, date_time, value, device_id FROM tb_measures WHERE device_id=?"
+                    ,new MeasureRowMapper(), deviceId);
+            return new PageImpl<Measure>(users, page, countByDevice(deviceId));
+        }
     }
 
 

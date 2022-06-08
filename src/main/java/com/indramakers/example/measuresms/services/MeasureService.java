@@ -40,11 +40,14 @@ public class MeasureService {
     }
 
     public Page<Measure> getMeasuresByDevice(String deviceId, Pageable page) {
+        if (!devicesRepository.existsById(Long.valueOf(deviceId))) {
+            throw new NotFoundException(ErrorCodes.DEVICE_NOT_FOUND.getMessage());
+        }
         return measureRepository.findByDevice(deviceId, page);
     }
 
     public ListMEasuresResponses getSummary(String deviceId) {
-        Page<Measure> measures  = measureRepository.findByDevice(deviceId, Pageable.unpaged());
+        Page<Measure> measures  = measureRepository.findByDevice(deviceId, null);
 
         double sum = 0;
 

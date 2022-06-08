@@ -9,6 +9,8 @@ import com.indramakers.example.measuresms.model.responses.MeasureSummaryResponse
 import com.indramakers.example.measuresms.services.DeviceService;
 import com.indramakers.example.measuresms.services.MeasureService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -64,6 +66,7 @@ public class DeviceController {
      * PARAMS: body -> { value: 12312 }
      */
     @PostMapping(Routes.MEASURES_BY_DEVICE_PATH)
+    @CacheEvict(value ="measureByDevive",key = "#deviceId")
     public void addMeasureToDevice(
             @Valid @RequestBody MeasureValueRequest request,
             @PathVariable("deviceId") String deviceId) {
@@ -76,6 +79,7 @@ public class DeviceController {
      */
 
     @GetMapping(Routes.MEASURES_BY_DEVICE_PATH)
+    @Cacheable(value = "measureByDevive", key = "#deviceId", unless = "#result == null")
     public Page<Measure> getDeviceMeasures(
             @PathVariable("deviceId") String deviceId, Pageable page) {
 
@@ -86,6 +90,7 @@ public class DeviceController {
     public ListMEasuresResponses getMeasuresSummary(@PathVariable("deviceId") String sensorId) {
         return measureService.getSummary(sensorId);
     }
+
 
     @GetMapping("/measures/summary")
     public MeasureSummaryResponse getAllSummary() {
