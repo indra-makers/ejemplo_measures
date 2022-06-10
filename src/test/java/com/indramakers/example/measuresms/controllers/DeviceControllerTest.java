@@ -8,12 +8,14 @@ import com.indramakers.example.measuresms.model.entities.Measure;
 import com.indramakers.example.measuresms.model.responses.ErrorResponse;
 import com.indramakers.example.measuresms.repositories.IDevicesRepository;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.mock.web.MockHttpServletResponse;
@@ -42,6 +44,14 @@ public class DeviceControllerTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private RedisConnection redisConnection;
+
+    @BeforeEach
+    public void beforeEach() {
+        redisConnection.flushAll();
+    }
 
     @Test
     public void createDeviceHappyPath() throws Exception {
@@ -127,6 +137,18 @@ public class DeviceControllerTest {
 
         Assertions.assertEquals(2, nodes.get("pageable").get("pageSize").asInt());
         Assertions.assertEquals(0, nodes.get("pageable").get("pageNumber").asInt());
+    }
+
+    @Test
+    public void failGetDeviceMeasuresWHENDecienoexist() throws Exception {
+        //----la ejecucion de la prueba misma--------------
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders
+                .get("/devices/1000/measures?page=0&size=2")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        MockHttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
+        //------------ las verificaciones--------------------
+        Assertions.assertEquals(404, response.getStatus());
     }
 
     @Test
