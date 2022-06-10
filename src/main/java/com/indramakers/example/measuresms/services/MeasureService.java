@@ -4,6 +4,7 @@ import com.indramakers.example.measuresms.config.Config;
 import com.indramakers.example.measuresms.config.ErrorCodes;
 import com.indramakers.example.measuresms.exceptions.BusinessException;
 import com.indramakers.example.measuresms.exceptions.NotFoundException;
+import com.indramakers.example.measuresms.messaging.MeasuresProducer;
 import com.indramakers.example.measuresms.model.entities.Measure;
 import com.indramakers.example.measuresms.model.responses.ListMEasuresResponses;
 import com.indramakers.example.measuresms.model.responses.MeasureSummary;
@@ -26,16 +27,21 @@ public class MeasureService {
     @Autowired
     private IDevicesRepository devicesRepository;
 
-    public void registerMeasure(String deviceId, Double value) {
+    @Autowired
+    private MeasuresProducer measuresProducer;
 
-        if (!devicesRepository.existsById(Long.valueOf(deviceId))) {
+    public void registerMeasure(String deviceId, Double value) {
+        if (devicesRepository.findByDeviceID(Long.valueOf(deviceId))==null) {
             throw new NotFoundException(ErrorCodes.DEVICE_NOT_FOUND.getMessage());
         }
 
         if (value < Config.MIN_MEAUSURE_VALUE || value > Config.MAX_MEAUSURE_VALUE) {
             throw new BusinessException(ErrorCodes.MEASURE_VALUES_OUT_OF_RANGE);
         }
+        measuresProducer.sendMeasure(new Measure(deviceId, value));
+    }
 
+    public void saveMeasure(String deviceId, Double value) {
         measureRepository.create(new Measure(deviceId, value));
     }
 
